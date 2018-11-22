@@ -1,1 +1,3 @@
 # ALGORITHM
+
+#C #JAVA #PYTHON
