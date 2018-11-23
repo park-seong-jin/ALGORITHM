@@ -29,7 +29,7 @@ void partition(int a[], int n)
 	putchar('\n');
 	if (pl > pr + 1) {
 		printf("피벗과 일치하는 그룹\n"); // 피벗과 같은 그룹
-		for (i = pr - 1; i <= pl - 1; i++) { // a[pr +1] ~ a[pl-1]
+		for (i = pr + 1; i <= pl - 1; i++) { // a[pr +1] ~ a[pl-1]
 			printf("%d",a[i]);
 		}
 		putchar('\n');
