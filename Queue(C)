@@ -1,4 +1,4 @@
- # IntQueue.h
+ //////////# IntQueue.h
 
 #ifndef ___IntQueue
 #define ___IntQueue
@@ -102,7 +102,7 @@ void Terminate(IntQueue *q) // 큐 종료
 }
 #endif
 
- # IntQueue.c
+////////// # IntQueue.c
 
 #include <stdio.h>
 #include "IntQueue.h"
