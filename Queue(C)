@@ -1,0 +1,156 @@
+# IntQueue.h
+
+#ifndef ___IntQueue
+#define ___IntQueue
+
+#pragma once
+typedef struct { // 큐를 구현하는 구조체
+	int max; //  큐의 최대 용량
+	int num; // 현재의 요소 개수
+	int  front; // 프런트
+	int rear; // 리어
+	int *que; //  큐의 맨 앞 요소에 대한 포인터
+}IntQueue;
+
+int Initialize(IntQueue *q, int max)
+{
+	q->num = q->front = q->rear = 0;
+	if ((q->que = calloc(max, sizeof(int))) == NULL) {
+		q->max = 0;
+		return -1;
+	}
+	q->max = max;
+	return 0;
+}// 큐 초기화
+int Enque(IntQueue *q, int x) // 큐에 데이터를 인큐
+{
+	if (q->num >= q->max)
+		return -1; // 큐가 가득 참
+	else {
+		q->num++;
+		q->que[q->rear++] = x;
+		if (q->rear == q->max)
+			q->rear = 0;
+		return 0;
+	}
+} // 큐에서 데이터를 인큐
+
+int Deque(IntQueue *q, int *x)
+{
+	if (q->num <= 0) // 큐는 비어있음
+		return -1;
+	else {
+		q->num--;
+		*x = q->que[q->front++];
+		if (q->front == q->max)
+			q->front = 0;
+		return 0;
+	}
+}
+
+int Peek(const IntQueue *q, int *x) // 큐에서 데이터를 디큐
+{
+	if (q->num <= 0) // 큐는 비어 있음
+		return -1;
+	*x = q->que[q->front];
+	return 0;
+}
+
+void Clear(IntQueue *q) // 모든 데이터 삭제
+{
+	q->num = q->front = q->rear = 0;
+}
+
+int Capacity(const IntQueue *q) // 큐의 최대 용량
+{
+	return q->max;
+}
+
+int Size(const IntQueue *q) // 큐에 저장된 데이터 개수
+{
+	return q->num;
+}
+int IsEmpty(const IntQueue *q) // 큐가 비어있는가?
+{
+	return q->num <= 0;
+}
+int IsFull(const IntQueue *q) // 큐가 가득 찼는가?
+{
+	return q->num >= q->max;
+}
+int Search(const IntQueue *q, int x) // 큐에서 검색
+{
+	int i, idx;
+	for (i = 0; i < q->num; i++) {
+		if (q->que[idx = (i + q->front) % q->max] == x)
+			return idx; // 검색 성공
+	}
+	return -1; // 검색 실패
+}
+void Print(const IntQueue *q) // 모든 데이터 출력
+{
+	int i;
+	for (i = 0; i < q->num; i++)
+		printf("%d", q->que[(i + q->front) % q->max]);
+	putchar('\n');
+}
+void Terminate(IntQueue *q) // 큐 종료
+{
+	if (q->que != NULL)
+		free(q->que); // 메모리 공간에 할당한 배열
+	q->max = q->num = q->front = q->rear = 0;
+}
+#endif
+
+#IntQueue.c
+#include <stdio.h>
+#include "IntQueue.h"
+
+ 
+int main(void)
+{
+	IntQueue que;
+
+	if (Initialize(&que, 64) == -1) {
+		puts("큐의 생성에 실패하였습니다.");
+		return 1;
+	}
+	while (1) {
+		int m, x;
+
+		printf("현재 데이터 수 : %d / %d \n", Size(&que), Capacity(&que));
+		printf("(1)인큐 (2)디큐 (3)피크 (4)출력 (0)종료 :");
+		scanf("%d",&m);
+
+		if (m == 0) break;
+		switch (m) {
+
+		case 1: // 인큐
+			printf("데이터 : "); scanf("%d",&x);
+			if (Enque(&que, x) == -1)
+				puts("\a오류 : 인큐에 실패하였습니다.");
+			break;
+
+		case 2: // 디큐
+			if (Deque(&que, &x) == -1)
+				puts("\a오류 : 디큐에 실패하였습니다.");
+			else
+				printf("디큐한 데이터는 %d입니다.\n",x);
+			break;
+		case 3: // 피크
+			if (Peek(&que, &x) == -1)
+				puts("\a오류 : 피크에 실패하였습니다.");
+			else
+				printf("피크한 데이터는 %d입니다.\n",x);
+			break;
+		
+		case 4: // 출력
+			Print(&que);
+			break;
+		
+		}
+	}
+	Terminate(&que);
+	return 0;
+}
+ 
