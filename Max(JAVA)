@@ -14,6 +14,17 @@ public class One {
 		
 		return max;
 	}
+	static int min3(int a,int b, int c) {
+		int min = a;
+		
+		if(b < min) {
+			min = b;
+		}
+		if (c < min) {
+			min = c;
+		}
+		return min;
+	}
 public static void main(String [] args) {
 	Scanner sc = new Scanner(System.in);
 	
@@ -24,6 +35,7 @@ public static void main(String [] args) {
 	int c = sc.nextInt();
 	
 	System.out.println("최대 값은:" + max3(a,b,c));
+	System.out.println("최소 값은:" + min3(a,b,c));
 	
 	
 	 
